@@ -1,13 +1,331 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8">
-  <title>AI技术应用实践</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="AiTechAP">
+	<meta name="keywords" content="AiTechAP, AI技术应用实践, 人工智能, 大模型, AI, LLM, AI算法, AI开发, AI应用, AI实践">
+	<meta name="description" content="我们致力于AI技术应用落地实践, 持续分享AI算法、AI开发、AI应用、AI实践等相关内容。">
+	<link rel="icon" type="image/png" href="/images/logo2.png">
+	<title>AI技术应用实践</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		:root {
+			--container-width: 1200px;
+			--bg-color: #060606;
+			--text-primary: #dc15ff;
+			--text-secondary: #004cff;
+			--text-p: #888;
+			--text-h: #fff;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			background-color: var(--bg-color);
+			color: var(--text-h);
+			overflow-x: hidden;
+			line-height: 1.8;
+		}
+
+		/* 页面背景 -- 网格式 */
+		.page-bg {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			background-image:
+				linear-gradient(0deg, rgba(0, 255, 255, 0.06), transparent 1px),
+				linear-gradient(90deg, rgba(0, 255, 255, 0.06), transparent 1px);
+			background-size: 60px 60px;
+			transform: perspective(600px) rotateX(45deg);
+			transform-origin: center top;
+			pointer-events: none;
+		}
+
+		/* 导航栏 */
+		nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+			background-color: var(--bg-color);
+			backdrop-filter: blur(10px);
+			border-bottom: 2px solid rgba(0, 76, 255, 0.2);
+		}
+
+		.nav-container {
+			max-width: var(--container-width);
+			margin: 0 auto;
+			padding: 0 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 80px;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 16px;
+			align-items: center;
+		}
+
+		.nav-links a {
+			color: var(--text-p);
+			text-decoration: none;
+			font-size: 1.4rem;
+			letter-spacing: 1px;
+			transition: color 0.3s ease;
+		}
+
+		.nav-links a:hover {
+			color: var(--text-h);
+		}
+
+		/* 分段符 */
+		.sec-sep {
+			height: 1px;
+			background: linear-gradient(90deg, transparent, var(--text-primary), transparent);
+			animation: pulse 6s infinite;
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				opacity: 0.8;
+			}
+
+			50% {
+				opacity: 0.3;
+			}
+		}
+
+		/* Hero Section */
+		.hero {
+			min-height: 60vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding-top: 100px;
+			position: relative;
+			text-align: center;
+		}
+
+		.hero-container {
+			max-width: 1000px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.hero h1 {
+			font-size: 6rem;
+			font-weight: 900;
+			line-height: 1.8;
+			margin-bottom: 1.6rem;
+			letter-spacing: 6px;
+			background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero p {
+			font-size: 1.4rem;
+			color: var(--text-p);
+			max-width: 800px;
+			margin-bottom: 1.2rem;
+			line-height: 2;
+		}
+
+		/* Section */
+		section {
+			padding: 80px 20px;
+			position: relative;
+		}
+
+		.container {
+			max-width: var(--container-width);
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.section-header {
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+			padding: 36px;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.section-header h2 {
+			font-size: 3rem;
+			font-weight: 600;
+			margin-bottom: 16px;
+			letter-spacing: 4px;
+		}
+
+		.section-header p {
+			color: var(--text-p);
+			font-size: 1.4rem;
+			letter-spacing: 1px;
+			text-align: center;
+		}
+
+		.span-1 {
+			color: var(--text-primary);
+			font-weight: 800;
+		}
+
+		.span-2 {
+			color: var(--text-secondary);
+			font-weight: 800;
+		}
+
+		/* Contact Section */
+		.contact-info {
+			display: flex;
+			gap: 40px;
+			padding: 36px;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+		}
+
+		.contact-block {
+			width: 500px;
+			background: rgba(246, 246, 246, 0.02);
+			border: 1px solid rgba(246, 246, 246, 0.15);
+			border-radius: 16px;
+			padding: 36px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.contact-block h3 {
+			color: var(--text-secondary);
+			font-size: 2rem;
+			font-weight: 600;
+			letter-spacing: 2px;
+		}
+
+		.contact-block img {
+			height: 360px;
+			object-fit: cover;
+			border-radius: 10px;
+		}
+
+		.contact-block p {
+			color: var(--text-p);
+			font-size: 1.4rem;
+			text-align: center;
+			letter-spacing: 1px;
+		}
+	</style>
 </head>
+
 <body>
-  <h1>AI技术应用实践</h1>
-  <p>欢迎关注同名公众号: <b>AI技术应用实践</b></p>
-  <p>我们致力于AI技术应用落地实践</p>
-  <p>我们将持续分享AI算法、AI开发、AI应用、AI实践等相关内容</p>
+	<!-- 背景网格 -->
+	<div class="page-bg"></div>
+
+	<!-- 导航栏 -->
+	<nav>
+		<div class="nav-container">
+			<img src="images/logo.png" alt="AI技术应用实践" height="50%">
+
+			<div class="nav-links">
+				<a href="#home">首页</a>
+				<a href="#about">关于我们</a>
+				<a href="#articles">技术文章</a>
+				<a href="#contact">联系我们</a>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<section id="home" class="hero">
+		<div class="hero-container">
+			<h1>AI技术应用实践</h1>
+			<p>
+				致力于AI技术应用落地实践<br>
+				持续分享AI算法、AI开发、AI应用、AI实践等相关内容。
+			</p>
+		</div>
+	</section>
+
+	<div class="sec-sep"></div>
+
+	<!-- 关于我们 -->
+	<section id="about">
+		<div class="container">
+			<div class="section-header">
+				<h2>关于我们</h2>
+				<p>
+					<span class="span-1">AI技术培训</span> &nbsp; | &nbsp;
+					<span class="span-2">AI技术咨询</span> <br>
+					致力于AI技术应用落地实践 <br>
+					持续分享AI算法、AI开发、AI应用、AI实践等相关内容。
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="sec-sep"></div>
+
+	<!-- 技术文章 -->
+	<section id="articles">
+		<div class="container">
+			<div class="section-header">
+				<h2>技术文章</h2>
+				<p>
+					欢迎关注公众号：<span class="span-1">AI技术应用实践</span> <br>
+					持续分享AI算法、AI开发、AI应用、AI实践等相关内容。
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="sec-sep"></div>
+
+	<!-- 联系我们 -->
+	<section id="contact">
+		<div class="container">
+			<div class="section-header">
+				<h2>联系我们</h2>
+			</div>
+
+			<div class="contact-info">
+				<div class="contact-block">
+					<h3>公众号</h3>
+					<img src="images/AiTechAP公众号.png" alt="公众号: AI技术应用实践" height="300">
+					<p>公众号：<scan class="span-1">AI技术应用实践</scan><br>
+						欢迎关注！
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
 </body>
+
 </html>
